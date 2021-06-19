@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.5.0"
     idea
+    maven
 }
 
 group = "com.statsig"
@@ -14,8 +15,6 @@ repositories {
 
 dependencies {
     testImplementation("junit:junit:4.13")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.0")
 }
 
 tasks.test {
