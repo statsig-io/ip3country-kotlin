@@ -16,6 +16,7 @@ This site or product includes IP2Location LITE data available from <a href="http
 
 ## Usage
 
+This library is distributed via [jitpack.io](https://jitpack.io/).
 
 ```java
 import ip3country.CountryLookup;
