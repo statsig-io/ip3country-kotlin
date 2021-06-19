@@ -1,8 +1,9 @@
 package ip3country
 
+import java.net.URL
 import java.nio.file.Paths
 
-private const val IP_TABLE_FILE_PATH: String = "ip_supalite.table"
+private const val IP_TABLE_FILE: String = "ip_supalite.table"
 private const val NULL_CC: String = "--"
 private const val LOOKUP_TABLE_TERMINATOR: Int = '*'.code
 
@@ -19,7 +20,7 @@ class CountryLookup {
             if (initialized) {
                 return
             }
-            val bytes = Paths.get(IP_TABLE_FILE_PATH).toFile().readBytes()
+            val bytes = CountryLookup::class.java.classLoader.getResource(IP_TABLE_FILE).readBytes()
             initializeWithBytes(bytes)
         }
 
