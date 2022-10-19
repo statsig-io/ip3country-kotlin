@@ -1,20 +1,20 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.6.0"
     idea
-    maven
+    id("com.vanniktech.maven.publish") version "0.22.0"
 }
 
 group = "com.statsig"
-version = "0.1.0"
+version = project.properties["VERSION_NAME"]!!
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation("junit:junit:4.13")
+    testImplementation("junit:junit:4.13.2")
 }
 
 tasks.test {
@@ -22,5 +22,5 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
