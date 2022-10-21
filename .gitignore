@@ -1,5 +1,7 @@
 ## From https://github.com/JetBrains/kotlin/blob/master/.gitignore
 
+.idea
+
 .DS_Store
 .idea/shelf
 /confluence/target
