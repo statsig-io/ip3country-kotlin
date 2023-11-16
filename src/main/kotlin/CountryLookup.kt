@@ -6,29 +6,34 @@ private const val LOOKUP_TABLE_TERMINATOR: Int = '*'.code
 
 class CountryLookup {
     companion object {
-
-        private var initialized: Boolean = false
         val countryCodes: MutableList<String> = mutableListOf()
         val ipRanges: MutableList<Long> = mutableListOf()
+
         private val countryTable: MutableList<String> = mutableListOf()
+        private var initialized = false
+        private val lock = Any()
 
         @JvmStatic
         fun initialize() {
-            if (initialized) {
-                return
+            synchronized(lock) {
+                if (initialized) {
+                    return
+                }
+
+                val bytes = CountryLookup::class.java.classLoader.getResource(IP_TABLE_FILE)?.readBytes() ?: return
+                initializeWithBytes(bytes)
             }
-            val bytes = CountryLookup::class.java.classLoader.getResource(IP_TABLE_FILE).readBytes()
-            initializeWithBytes(bytes)
         }
 
         @JvmStatic
         fun lookupIPString(ipAddressString: String): String? {
             initialize()
-            if (ipAddressString.isNullOrEmpty()) {
+
+            if (ipAddressString.isEmpty()) {
                 return null
             }
 
-            var components = ipAddressString.split(".")
+            val components = ipAddressString.split(".")
             if (components.size != 4) {
                 return null
             }
@@ -48,8 +53,8 @@ class CountryLookup {
         @JvmStatic
         fun lookupIPNumber(ipNumber: Long): String? {
             initialize()
-            var index = binarySearch(ipNumber)
-            var cc = countryCodes[index]
+            val index = binarySearch(ipNumber)
+            val cc = countryCodes[index]
             if (cc == NULL_CC) {
                 return null
             }
@@ -111,7 +116,7 @@ class CountryLookup {
             var max = ipRanges.size - 1
 
             while (min < max) {
-                var mid = (min + max) shr 1
+                val mid = (min + max) shr 1
                 if (ipRanges[mid] <= ipNumber) {
                     min = mid + 1
                 } else {
